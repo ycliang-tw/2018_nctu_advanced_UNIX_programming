@@ -6,7 +6,7 @@ MAKE		= make
 TEXTBOOK	= textbook
 INCLASS		= env+tools sysinfo procenv procctl procrel \
 		  threads daemon advio classipc netipc advipc \
-		  termio
+		  signal termio files ipc asm
 DIRS		= $(INCLASS) $(TEXTBOOK)
 
 DATESTR		= $(shell date "+%Y%m%d")
@@ -31,6 +31,7 @@ clean:
 	for d in $(DIRS); do $(MAKE) -C $$d clean; done
 	
 pack: clean
+	find . -name core -exec rm {} \;
 	rm -f $(TEXTBOOK_TGZ) $(INCLASS_TGZ)
 	cd ..; tar czf $(BASE)/$(TEXTBOOK_TGZ) \
 		$(BASE)/textbook/ch* $(BASE)/textbook/include \

@@ -7,7 +7,7 @@
 
 int main() {
 	pid_t pid;
-	int status;
+	int fd, status;
 	printf("mypid = %u\n", getpid());
 	if((pid = fork()) < 0) {
 		perror("fork");
@@ -45,7 +45,9 @@ int main() {
 	}
 	printf("setsid success: pid %u sid %u pgrp %u\n",
 		getpid(), getsid(0), getpgrp());
-	//pause();
+	if((fd = open("/dev/tty", O_RDONLY)) < 0) { perror("open"); }
+	else { close(fd); }
+	pause();
 	return 0;
 }
 

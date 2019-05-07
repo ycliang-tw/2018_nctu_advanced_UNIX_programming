@@ -1,12 +1,12 @@
 EXE    = hw1
-CC    ?= gcc
+CC     = gcc -std=gnu99
 CFLAGS = -Wall -g -static
 BIN    = $(shell pwd)/bin
 
 all: $(EXE)
 	mkdir $(BIN); cp $(EXE) $(BIN)
 
-$(EXE): $(EXE).o
+$(EXE): $(EXE).o 
 	$(CC) $(CFLAGS) -o $@ $<
 
 %.o: %.c

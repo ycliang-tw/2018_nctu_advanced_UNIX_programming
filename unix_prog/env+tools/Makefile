@@ -3,7 +3,7 @@ CC	= gcc
 CXX	= g++
 CFLAGS	= -Wall -g
 
-PROGS	= rusage return args testtime getopt bug bug2 \
+PROGS	= rusage hello return args testtime getopt bug bug2 \
 	  gdbcall errno
 
 all: $(PROGS)

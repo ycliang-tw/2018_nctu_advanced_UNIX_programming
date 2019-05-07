@@ -1,3 +1,4 @@
+#include <alloca.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -10,6 +11,7 @@
 #define	MSIZE		(32*1024*1024)
 #define	MMAP_THRESHOLD	(128*1024)
 
+int global_inited = 1234;
 int global;
 
 void print_address();
@@ -23,6 +25,8 @@ main() {
 		printf("**** MMAP_THRESHOLD = %d\n", MMAP_THRESHOLD);
 	}
 #endif
+	printf("**** %dMB = 0x%x\n", MSIZE/1048576, MSIZE);
+
 	print_address();
 	/////////////////////////////////////
 	m = small_alloc(MSIZE);
@@ -38,6 +42,11 @@ main() {
 	m = malloc(MSIZE);
 	printf("**** #3 allocate %dMB chunk (%p--%p)\n",
 		MSIZE/1048576, m, m + MSIZE);
+	print_address();
+	/////////////////////////////////////
+	m = alloca(1024);
+	printf("**** #4 allocate 1KB chunk via alloca (%p--%p)\n",
+		m, m + 1024);
 	print_address();
 	return 0;
 }
@@ -67,6 +76,7 @@ print_address() {
 	} while(0);
 
 	printf("        main@text: %p\n", main);
+	printf("      global@data: %p\n", &global_inited);
 	printf("       global@bss: %p\n", &global);
 	printf("           m@heap: %p\n", m);
 	printf("              brk: %p (global@bss+%ld)\n", bb, bb - (void*) &global);

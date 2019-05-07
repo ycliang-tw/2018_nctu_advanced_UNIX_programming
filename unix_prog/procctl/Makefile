@@ -4,7 +4,7 @@ CXX	= g++
 CFLAGS	= -Wall -g
 LDFLAGS	=
 
-PROGS	= simple exec echobin fig8.20-exec2 zombie
+PROGS	= buffer simple exec echobin fig8.20-exec2 zombie shell
 
 all: $(PROGS)
 

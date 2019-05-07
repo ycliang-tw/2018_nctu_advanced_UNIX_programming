@@ -4,7 +4,7 @@ CXX	= g++
 CFLAGS	= -Wall -g
 LDFLAGS	= 
 
-PROGS	= loginname ttyname getpass sess0 sess1 sess2 sess3 tpgrp
+PROGS	= loginname ttyname getpass sess0 sess1 sess2 sess3 tpgrp opentty direct
 
 all: $(PROGS)
 
