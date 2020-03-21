@@ -2,7 +2,7 @@
 ###### tags: `NCTU` `UNIX` `APUE`
 
 ## Directory Structure
-
+```
 nctu_unix
 | 
 | -- class_material: Contains all the sample codes in the textbook <APUE>
@@ -14,5 +14,5 @@ nctu_unix
 | -- lab3: Extend given mini c library using assembly to handle signal
 |
 | -- lab4: Implement a simple chat program
-
+```
 Detailed Description would be provided in each directory.
