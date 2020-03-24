@@ -14,6 +14,7 @@
 typedef struct shell_t shell_t;
 
 typedef struct {
+    int argsCnt;
     char *cmd;
     char *args[0];
 }cmd_t;

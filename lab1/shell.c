@@ -6,7 +6,7 @@
 #include <errno.h>
 
 #include "shell.h"
-#include "builtins.h"
+//#include "builtins.h"
 void shell()
 {
     shell_t sh = {
@@ -47,15 +47,19 @@ void parse_cmd(shell_t *sh)
             return;
         }
         cmd = tmp;
-        ((char**)cmd)[i] = tok;
+        ((char**)&cmd->cmd)[i] = tok;
+        cmd->argsCnt++;
         tok = strtok(NULL, whiteSpace);
     }
+    sh->list = cmd;
 }
 
 void exec_cmd(shell_t *sh)
 {
+    pout("argcnt: %d\n", sh->list->argsCnt);
     if(!sh->list)
         return;
+
 }
 void init_cmd(shell_t *sh)
 {
@@ -66,3 +70,10 @@ void release_cmd(shell_t *sh)
 {
     free(sh->list);
 }
+
+#ifdef debug
+int main()
+{
+    shell();
+}
+#endif
