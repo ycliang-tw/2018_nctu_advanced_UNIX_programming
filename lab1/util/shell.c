@@ -6,7 +6,10 @@
 #include <errno.h>
 
 #include "shell.h"
-//#include "builtins.h"
+#include "builtins.h"
+
+extern const builtin_t builtinCmd[];
+
 void shell()
 {
     shell_t sh = {
@@ -32,6 +35,7 @@ fin:
 
 void parse_cmd(shell_t *sh)
 {
+    int i = 0;
     char input[len], whiteSpace[] = "\t\n\r ";
     char *tok = NULL;
     cmd_t *cmd = sh->list;
@@ -40,32 +44,44 @@ void parse_cmd(shell_t *sh)
     fgets(input, len, stdin);
 
     tok = strtok(input, whiteSpace);
-    for(int i = 0; tok != NULL; i++){
-        cmd_t *tmp = realloc(cmd, sizeof(cmd_t) + i*sizeof(char*));
-        if(!tmp){
-            perr("[error] Cannot resize!\n");
-            return;
-        }
+    for(i = 0; tok != NULL; i++){
+        cmd_t *tmp = realloc(cmd, sizeof(cmd_t) + i*sizeof(char)*len);
+        if(!tmp){ perr("[error] Cannot resize!\n"); return; }
         cmd = tmp;
-        ((char**)&cmd->cmd)[i] = tok;
-        cmd->argsCnt++;
+        snprintf(&((char*)cmd->name)[i*len], len, "%s", tok);
         tok = strtok(NULL, whiteSpace);
     }
+    cmd->argsCnt = i-1;
     sh->list = cmd;
 }
 
 void exec_cmd(shell_t *sh)
 {
-    pout("argcnt: %d\n", sh->list->argsCnt);
-    if(!sh->list)
+    int i = 0;
+    int listLen = sizeof(builtinCmd)/sizeof(builtin_t);
+    cmd_t *cmd = sh->list;
+    if(!cmd) return;
+    if(strcmp(cmd->name, "exit") == 0){
+        sh->status = false;
         return;
+    }
+    
+    for(i = 0; i < listLen; i++){
+        if(strcmp(cmd->name, builtinCmd[i].name) == 0){
+            builtinCmd[i].func(sh);
+            break;
+        }
+    }
 
+    if(i == listLen)
+        perr("[error] Not supported command\n");
 }
+
 void init_cmd(shell_t *sh)
 {
     sh->list = (cmd_t*)calloc(1, sizeof(cmd_t));
-    
 }
+
 void release_cmd(shell_t *sh)
 {
     free(sh->list);

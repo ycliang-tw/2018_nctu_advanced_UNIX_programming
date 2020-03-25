@@ -3,7 +3,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include "shell.h"
+#include "util/shell.h"
 
 
 int main(int argc, char *argv[])
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
         }
     }else{
         pout("[warning] Incorrect number of arguments,");
-        pout(" set default (euid,egid) to (0,0).\n");
+        pout(" set default (euid,egid) to user's id.\n");
     }
     /* execute interactive shell */
     shell();
