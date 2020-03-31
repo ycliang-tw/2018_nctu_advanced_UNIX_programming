@@ -15,4 +15,4 @@ nctu_unix
 |
 | -- lab4: Implement a simple chat program
 ```
-Detailed Description would be provided in each directory.
+Detailed description is provided in each directory.
